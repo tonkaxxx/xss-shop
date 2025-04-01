@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Shop - Демонстрация XSS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Уязвимый магазин</h1>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Поиск товаров...">
+            <button onclick="searchProducts()">Найти</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="searchResults"></div>
+
+        <div class="products">
+            <div class="product">
+                <h2>Ноутбук X1</h2>
+                <p>Мощный ноутбук для работы и игр</p>
+                <p class="price">$999</p>
+                <button onclick="showComments('product1')">Комментарии</button>
+                <div id="product1-comments" class="comments-section" style="display:none;">
+                    <h3>Комментарии</h3>
+                    <div id="product1-comments-list"></div>
+                    <textarea id="product1-comment-text" placeholder="Ваш комментарий..."></textarea>
+                    <button onclick="addComment('product1')">Добавить</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <h2>Смартфон Y2</h2>
+                <p>Новейший смартфон с отличной камерой</p>
+                <p class="price">$799</p>
+                <button onclick="showComments('product2')">Комментарии</button>
+                <div id="product2-comments" class="comments-section" style="display:none;">
+                    <h3>Комментарии</h3>
+                    <div id="product2-comments-list"></div>
+                    <textarea id="product2-comment-text" placeholder="Ваш комментарий..."></textarea>
+                    <button onclick="addComment('product2')">Добавить</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <h2>Наушники Z3</h2>
+                <p>Беспроводные наушники с шумоподавлением</p>
+                <p class="price">$199</p>
+                <button onclick="showComments('product3')">Комментарии</button>
+                <div id="product3-comments" class="comments-section" style="display:none;">
+                    <h3>Комментарии</h3>
+                    <div id="product3-comments-list"></div>
+                    <textarea id="product3-comment-text" placeholder="Ваш комментарий..."></textarea>
+                    <button onclick="addComment('product3')">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="comments.js"></script>
+    <script>
+        // Reflected XSS в поиске
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+            const resultsDiv = document.getElementById('searchResults');
+            
+            // Уязвимость: отраженный XSS - поисковый запрос вставляется без экранирования
+            resultsDiv.innerHTML = `<h2>Результаты поиска для: ${searchTerm}</h2>`;
+            
+            // Здесь могла бы быть логика поиска товаров
+            if (searchTerm.toLowerCase().includes('ноутбук')) {
+                resultsDiv.innerHTML += '<p>Найден товар: Ноутбук X1</p>';
+            } else if (searchTerm.toLowerCase().includes('смартфон')) {
+                resultsDiv.innerHTML += '<p>Найден товар: Смартфон Y2</p>';
+            } else if (searchTerm.toLowerCase().includes('наушники')) {
+                resultsDiv.innerHTML += '<p>Найден товар: Наушники Z3</p>';
+            } else {
+                resultsDiv.innerHTML += '<p>Товары не найдены</p>';
+            }
+        }
+
+        function showComments(productId) {
+            const commentsSection = document.getElementById(`${productId}-comments`);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+            loadComments(productId);
+        }
+    </script>
+</body>
+</html>
