@@ -67,10 +67,10 @@
             const searchTerm = document.getElementById('searchInput').value;
             const resultsDiv = document.getElementById('searchResults');
             
-            // Уязвимость: отраженный XSS - поисковый запрос вставляется без экранирования
+            // Уязвимость: Reflected XSS - поисковый запрос вставляется без экранирования
             resultsDiv.innerHTML = `<h2>Результаты поиска для: ${searchTerm}</h2>`;
             
-            // Здесь могла бы быть логика поиска товаров
+            // Логика поиска товаров
             if (searchTerm.toLowerCase().includes('ноутбук')) {
                 resultsDiv.innerHTML += '<p>Найден товар: Ноутбук X1</p>';
             } else if (searchTerm.toLowerCase().includes('смартфон')) {

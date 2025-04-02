@@ -1,4 +1,4 @@
-// Хранение комментариев в "базе данных" (в реальном приложении это был бы сервер)
+// Хранение комментариев в базе данных
 const commentsDB = {
     product1: [],
     product2: [],
@@ -21,7 +21,7 @@ function addComment(productId) {
     const commentText = document.getElementById(`${productId}-comment-text`).value;
     if (commentText.trim() === '') return;
     
-    // Добавляем комментарий в "базу данных"
+    // Добавляем комментарий в базу данных
     commentsDB[productId].push(commentText);
     
     // Очищаем поле ввода

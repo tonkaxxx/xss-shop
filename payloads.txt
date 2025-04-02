@@ -1,0 +1,6 @@
+<a href="javascript:alert('XSS')">Click me</a>
+
+<img src="x" onerror="alert(document.cookie)">
+
+<div onmouseover="alert('XSS')">Hover me</div>
+
